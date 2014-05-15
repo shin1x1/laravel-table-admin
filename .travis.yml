@@ -6,7 +6,8 @@ php:
 
 before_script:
   - composer self-update
-  - cd example && composer install --prefer-source --no-interaction --dev
+  - cd example
+  - composer install --prefer-source --no-interaction --dev
 
 script:
-  - cd example && ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit
