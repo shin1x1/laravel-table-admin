@@ -39,7 +39,7 @@ class TableAdminController extends Controller
             $translator = app('translator');
 
             // app/lang/{locale}/validation.php
-            $fullKey = 'validation.' . $key;
+            $fullKey = 'validation.attributes.' . $key;
             if ($translator->has($fullKey)) {
                 return $translator->get($fullKey);
             }
