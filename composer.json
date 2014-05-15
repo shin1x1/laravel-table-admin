@@ -1,10 +1,14 @@
 {
-    "name": "shin1x1/laravel-db-admin",
-    "description": "LaravelDbAdmin",
+    "name": "shin1x1/laravel-table-admin",
+    "description": "Laravel-Table-Admin Simple CRUD package for Laravel 4",
+    "keywords": ["laravel", "database"],
+    "homepage": "https://github.com/shin1x1/laravel-table-admin",
+    "license": "MIT",
     "authors": [
         {
             "name": "Masashi Shinbara",
-            "email": "shin1x1@gmail.com"
+            "email": "shin1x1@gmail.com",
+            "homepage": "https://github.com/shin1x1"
         }
     ],
     "require": {
@@ -13,7 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Shin1x1\\LaravelTableAdmin\\": "src/"
+            "Shin1x1\\LaravelTableAdmin": "src/"
         }
     },
     "minimum-stability": "stable"
