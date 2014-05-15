@@ -18,6 +18,9 @@
     "autoload": {
         "psr-0": {
             "Shin1x1\\LaravelTableAdmin": "src/"
+        },
+        "psr-4": {
+            "Shin1x1\\LaravelTableAdmin\\Controller\\": "src/controllers"
         }
     },
     "minimum-stability": "stable"
