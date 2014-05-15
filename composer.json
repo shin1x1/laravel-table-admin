@@ -1,0 +1,20 @@
+{
+    "name": "shin1x1/laravel-db-admin",
+    "description": "LaravelDbAdmin",
+    "authors": [
+        {
+            "name": "Masashi Shinbara",
+            "email": "shin1x1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "laravel/framework": "4.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Shin1x1\\LaravelTableAdmin\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
