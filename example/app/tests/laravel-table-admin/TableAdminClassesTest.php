@@ -8,6 +8,7 @@ class TableAdminClassesTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        Artisan::call('migrate');
         Artisan::call('db:seed');
     }
 
@@ -39,7 +40,7 @@ class TableAdminClassesTest extends TestCase
         $columns = $view->columns;
         $this->assertEquals(2, $columns->count());
         $this->assertEquals('id', $columns->get(0)->getName());
-        $this->assertEquals(true, $columns->get(0)->isLabel());
+        $this->assertEquals(false, $columns->get(0)->isLabel());
         $this->assertEquals('name', $columns->get(1)->getName());
         $this->assertEquals(false, $columns->get(1)->isLabel());
     }
@@ -72,6 +73,7 @@ class TableAdminClassesTest extends TestCase
     public function store()
     {
         $data = [
+            'id' => '4',
             'name' => 'new',
         ];
         $this->client->request('POST', '/crud/classes', $data);
@@ -96,25 +98,6 @@ class TableAdminClassesTest extends TestCase
         $this->assertEquals('http://localhost/crud/classes/create', $this->client->getResponse()->headers->get('location'));
 
         $this->assertEquals(3, DB::table('classes')->count());
-    }
-
-    /**
-     * @test
-     */
-    public function store_input_id()
-    {
-        $data = [
-            'id' => '100',
-            'name' => 'new',
-        ];
-        $this->client->request('POST', '/crud/classes', $data);
-        $this->assertTrue($this->client->getResponse()->isRedirect());
-        $this->assertEquals('http://localhost/crud/classes', $this->client->getResponse()->headers->get('location'));
-
-        $this->assertEquals(4, DB::table('classes')->count());
-
-        $data = DB::table('classes')->orderBy('id', 'DESC')->first();
-        $this->assertEquals(['id' => '4', 'name' => 'new'], (array)$data);
     }
 
     /**
@@ -145,6 +128,7 @@ class TableAdminClassesTest extends TestCase
     public function update()
     {
         $data = [
+            'id' => '1',
             'name' => 'update',
         ];
         $this->client->request('PUT', '/crud/classes/1', $data);
@@ -177,7 +161,7 @@ class TableAdminClassesTest extends TestCase
     public function update_input_id()
     {
         $data = [
-            'id' => '100',
+            'id' => '4',
             'name' => 'update',
         ];
         $this->client->request('PUT', '/crud/classes/1', $data);
@@ -186,7 +170,7 @@ class TableAdminClassesTest extends TestCase
 
         $this->assertEquals(3, DB::table('classes')->count());
 
-        $data = DB::table('classes')->where('id', 1)->first(['name']);
+        $data = DB::table('classes')->where('id', 4)->first(['name']);
         $this->assertEquals(['name' => 'update'], (array)$data);
     }
 
@@ -195,10 +179,32 @@ class TableAdminClassesTest extends TestCase
      */
     public function delete()
     {
+        $data = [
+            'id' => '4',
+            'name' => 'new',
+        ];
+        $this->client->request('POST', '/crud/classes', $data);
+        $this->assertTrue(DB::table('classes')->where('id', 4)->exists());
+
+        $this->client->request('DELETE', '/crud/classes/4');
+        $this->assertTrue($this->client->getResponse()->isRedirect());
+        $this->assertEquals('http://localhost/crud/classes', $this->client->getResponse()->headers->get('location'));
+
+        $this->assertFalse(DB::table('classes')->where('id', 4)->exists());
+    }
+
+    /**
+     * @test
+     */
+    public function delete_db_error()
+    {
         $this->client->request('DELETE', '/crud/classes/1');
         $this->assertTrue($this->client->getResponse()->isRedirect());
         $this->assertEquals('http://localhost/crud/classes', $this->client->getResponse()->headers->get('location'));
 
-        $this->assertEquals([2,3], DB::table('classes')->orderBy('id')->lists('id'));
+        $expected = ['type' => 'danger', 'text' => 'delete_error'];
+        $this->assertEquals($expected, Session::get('message'));
+
+        $this->assertEquals(3, DB::table('classes')->count());
     }
 }
