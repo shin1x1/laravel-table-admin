@@ -10,7 +10,7 @@ before_script:
   - composer self-update
   - cd example
   - composer install --prefer-source --no-interaction --dev
-   - mysql -e 'create database app_test;'
+  - mysql -e 'create database app_test;'
 
 script:
   - ./vendor/bin/phpuni
