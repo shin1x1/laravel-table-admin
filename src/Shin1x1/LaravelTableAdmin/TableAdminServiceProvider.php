@@ -19,7 +19,7 @@ class TableAdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('shin1x1/table-admin');
+        $this->package('shin1x1/' . TableAdmin::PACKAGE_NAME);
     }
 
     /**

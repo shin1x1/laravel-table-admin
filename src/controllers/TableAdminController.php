@@ -43,12 +43,12 @@ class TableAdminController extends Controller
             if ($translator->has($fullKey)) {
                 return $translator->get($fullKey);
             }
-            // app/lang/{locale}/table-admin.php
+            // app/lang/{locale}/laravel-table-admin.php
             $fullKey = TableAdmin::PACKAGE_NAME . '.' .$key;
             if ($translator->has($fullKey)) {
                 return $translator->get($fullKey);
             }
-            // /path/to/package/lang/{locale}/table-admin.php
+            // /path/to/package/lang/{locale}/laravel-table-admin.php
             $fullKey = TableAdmin::PACKAGE_NAME . '::lang.' . $key;
             if ($translator->has($fullKey)) {
                 return $translator->get($fullKey);

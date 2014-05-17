@@ -5,7 +5,7 @@ return [
     ],
 
     'view' => [
-        'parent_view' => 'table-admin::base',
-        'prefix' => 'table-admin::',
+        'parent_view' => 'laravel-table-admin::base',
+        'prefix' => 'laravel-table-admin::',
     ],
 ];

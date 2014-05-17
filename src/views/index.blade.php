@@ -1,4 +1,4 @@
-@extends(Config::get('table-admin::view.parent_view'))
+@extends(Config::get('laravel-table-admin::view.parent_view'))
 
 @section('title')
 <?= e(HTML::transform($table)) ?>

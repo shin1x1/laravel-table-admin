@@ -10,7 +10,7 @@ use Shin1x1\LaravelTableAdmin\Schema\SchemaInterface;
 class TableAdmin
 {
     const INDEX_LIMIT = 100;
-    const PACKAGE_NAME = 'table-admin';
+    const PACKAGE_NAME = 'laravel-table-admin';
 
     /**
      * @var Connection

@@ -23,7 +23,7 @@ class TableAdminClassesTest extends TestCase
         /** @var \Illuminate\View\View  $view */
         $view = $this->client->getResponse()->getOriginalContent();
 
-        $this->assertEquals('table-admin::index', $view->getName());
+        $this->assertEquals('laravel-table-admin::index', $view->getName());
 
         $this->assertEquals('/crud/classes/create', $view->newUrl);
         $this->assertEquals('/crud/classes/', $view->editUrl);
@@ -56,7 +56,7 @@ class TableAdminClassesTest extends TestCase
         /** @var \Illuminate\View\View  $view */
         $view = $this->client->getResponse()->getOriginalContent();
 
-        $this->assertEquals('table-admin::form', $view->getName());
+        $this->assertEquals('laravel-table-admin::form', $view->getName());
 
         $this->assertEquals('/crud/classes', $view->backUrl);
         $this->assertEquals('/crud/classes', $view->storeUrl);
@@ -129,7 +129,7 @@ class TableAdminClassesTest extends TestCase
         /** @var \Illuminate\View\View  $view */
         $view = $this->client->getResponse()->getOriginalContent();
 
-        $this->assertEquals('table-admin::form', $view->getName());
+        $this->assertEquals('laravel-table-admin::form', $view->getName());
 
         $this->assertEquals('/crud/classes', $view->backUrl);
         $this->assertEquals('/crud/classes', $view->storeUrl);
