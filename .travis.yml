@@ -18,3 +18,7 @@ before_script:
 
 script:
   - ./vendor/bin/phpunit
+
+notifications:
+  - webhooks:
+    - https://idobata.io/hook/734651d8-05c0-403f-a385-c647960a2767
