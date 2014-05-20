@@ -6,11 +6,16 @@ php:
   - 5.6
   - hhvm
 
+addons:
+  - postgresql: "9.3"
+
 before_script:
+  - git clone https://github.com/shin1x1/laravel-table-admin-example.git
+  - cd laravel-table-admin-example
   - composer self-update
-  - cd example
   - composer install --prefer-source --no-interaction --dev
-  - mysql -e 'create database app_test;'
+  - createuser -Upostgres -d -A -S vagrant
+  - createdb -Uvagrant -E UTF-8 -T template0 app_test
 
 script:
   - ./vendor/bin/phpunit
