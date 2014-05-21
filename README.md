@@ -66,4 +66,4 @@ Finally, you write routing for CRUD in `app/routes.php`
 
 Done!
 
-If you open `http://localhost/crud/{TABLE}` in browser, you can access CRUD.
+If you will open `http://localhost/crud/{TABLE}` in browser, you can access CRUD.
