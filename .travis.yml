@@ -9,8 +9,6 @@ addons:
   - postgresql: "9.3"
 
 before_script:
-  - git clone https://github.com/shin1x1/laravel-table-admin-example.git
-  - cd laravel-table-admin-example
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - createuser -Upostgres -d -A -S -R vagrant
@@ -18,7 +16,14 @@ before_script:
 
 script:
   - ./vendor/bin/phpunit
+  - git clone https://github.com/shin1x1/laravel-table-admin-example.git
+  - cd laravel-table-admin-example
+  - composer install --prefer-source --no-interaction --dev
+  - ./vendor/bin/phpunit
 
 notifications:
   webhooks:
     - https://idobata.io/hook/734651d8-05c0-403f-a385-c647960a2767
+  hipchat:
+    rooms:
+      secure: C7kqNPcWxlUuGcXfz1/lS2yWDU6/BeibX66tucXCsNNDzc0/CKky06TApPR5Bnq0V8JKovYMWwx2wraMzk6WXjK6U07IILHvFAPxuSKHEhN0mWC+lkMH5aONZEuXFIFlFQp5vaGiZe1vvcXnDRDZ4j23O+3cXH/2FwlI9h33lbM=
