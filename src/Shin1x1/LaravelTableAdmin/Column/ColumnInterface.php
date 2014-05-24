@@ -1,7 +1,11 @@
 <?php
-namespace Shin1x1\LaravelTableAdmin\Schema;
+namespace Shin1x1\LaravelTableAdmin\Column;
 
-interface SchemaInterface
+/**
+ * Interface ColumnInterface
+ * @package Shin1x1\LaravelTableAdmin\Column
+ */
+interface ColumnInterface
 {
     /**
      * @return boolean

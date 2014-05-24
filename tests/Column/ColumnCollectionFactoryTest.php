@@ -1,20 +1,20 @@
 <?php
-namespace Shin1x1\LaravelTableAdmin\Test\Schema;
+namespace Shin1x1\LaravelTableAdmin\Test\Column;
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Schema\Blueprint;
 use PDO;
-use Shin1x1\LaravelTableAdmin\Schema\SchemaCollectionFactory;
+use Shin1x1\LaravelTableAdmin\Column\ColumnCollectionFactory;
 
 /**
- * Class SchemaCollectionFactoryTest
- * @package Shin1x1\LaravelTableAdmin\Test\Schema
+ * Class ColumnCollectionFactoryTest
+ * @package Shin1x1\LaravelTableAdmin\Test\Column
  */
-class SchemaCollectionFactoryTest extends \PHPUnit_Framework_TestCase
+class ColumnCollectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SchemaCollectionFactory
+     * @var ColumnCollectionFactory
      */
     protected $sut;
 
@@ -51,7 +51,7 @@ class SchemaCollectionFactoryTest extends \PHPUnit_Framework_TestCase
             $table->string('name');
         });
 
-        $this->sut = new SchemaCollectionFactory($this->connection);
+        $this->sut = new ColumnCollectionFactory($this->connection);
     }
 
     public function tearDown()
@@ -64,38 +64,38 @@ class SchemaCollectionFactoryTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function tableNothing(){
-        $schemas = $this->sut->factory('nothing');
+        $columns = $this->sut->factory('nothing');
 
-        $this->assertEquals(0, $schemas->count());
+        $this->assertEquals(0, $columns->count());
     }
 
     /**
      * @test
      */
     public function tableHasIdAndNameColumn(){
-        $schemas = $this->sut->factory('classes');
+        $columns = $this->sut->factory('classes');
 
-        $this->assertEquals(2, $schemas->count());
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Schema\SchemaText', $schemas->get(0));
-        $this->assertEquals('id', $schemas->get(0)->getName());
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Schema\SchemaText', $schemas->get(1));
-        $this->assertEquals('name', $schemas->get(1)->getName());
+        $this->assertEquals(2, $columns->count());
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $columns->get(0));
+        $this->assertEquals('id', $columns->get(0)->getName());
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $columns->get(1));
+        $this->assertEquals('name', $columns->get(1)->getName());
     }
 
     /**
      * @test
      */
     public function tableHasForiegnKeyColumn(){
-        $schemas = $this->sut->factory('riders');
+        $columns = $this->sut->factory('riders');
 
-        $this->assertEquals(3, $schemas->count());
+        $this->assertEquals(3, $columns->count());
 
-        $column = $schemas->get(0);
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Schema\SchemaLabel', $column);
+        $column = $columns->get(0);
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnLabel', $column);
         $this->assertEquals('id', $column->getName());
 
-        $column = $schemas->get(1);
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Schema\SchemaSelect', $column);
+        $column = $columns->get(1);
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnSelect', $column);
         $this->assertEquals('class_id', $column->getName());
         $expected = [
             '1' => 'class1',
@@ -103,8 +103,8 @@ class SchemaCollectionFactoryTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expected, $column->getSelectList());
 
-        $column = $schemas->get(2);
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Schema\SchemaText', $column);
+        $column = $columns->get(2);
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $column);
         $this->assertEquals('name', $column->getName());
     }
 }

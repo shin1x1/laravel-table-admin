@@ -1,9 +1,13 @@
 <?php
-namespace Shin1x1\LaravelTableAdmin\Schema;
+namespace Shin1x1\LaravelTableAdmin\Column;
 
 use Doctrine\DBAL\Schema\Column;
 
-class AbstractSchema implements SchemaInterface
+/**
+ * Class AbstractColumn
+ * @package Shin1x1\LaravelTableAdmin\Column
+ */
+class AbstractColumn implements ColumnInterface
 {
     /**
      * @var Column

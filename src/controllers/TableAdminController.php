@@ -12,9 +12,9 @@ use Redirect;
 use Request;
 use Route;
 use Session;
+use Shin1x1\LaravelTableAdmin\Column\ColumnCollectionFactory;
 use Validator;
 use View;
-use Shin1x1\LaravelTableAdmin\Schema\SchemaCollectionFactory;
 use Shin1x1\LaravelTableAdmin\TableAdmin;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -23,7 +23,7 @@ class TableAdminController extends Controller
     /**
      * @var Collection
      */
-    protected $schemas;
+    protected $columns;
 
     /**
      * @var TableAdmin
@@ -69,7 +69,7 @@ class TableAdminController extends Controller
         $this->buildInstances($table);
 
         return View::make($this->getView('index'))
-            ->with('columns', $this->schemas)
+            ->with('columns', $this->columns)
             ->with('paginator', $this->service->index())
             ->with('newUrl', $this->getUrl('create', $table))
             ->with('editUrl', $this->getUrl('edit', $table))
@@ -117,7 +117,7 @@ class TableAdminController extends Controller
         }
 
         return View::make($this->getView('form'))
-            ->with('columns', $this->schemas)
+            ->with('columns', $this->columns)
             ->with('backUrl', $this->getUrl('index', $table, $id))
             ->with('storeUrl', $this->getUrl('store', $table, $id))
             ->with('updateUrl', $this->getUrl('update', $table, $id))
@@ -205,8 +205,8 @@ class TableAdminController extends Controller
     protected function buildInstances($table)
     {
         $connection = DB::connection();
-        $this->schemas = (new SchemaCollectionFactory($connection, $table))->factory($table);
-        $this->service = new TableAdmin($connection, $this->schemas, $table);
+        $this->columns = (new ColumnCollectionFactory($connection, $table))->factory($table);
+        $this->service = new TableAdmin($connection, $this->columns, $table);
     }
 
     /**

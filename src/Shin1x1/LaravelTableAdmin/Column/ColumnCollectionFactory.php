@@ -1,12 +1,16 @@
 <?php
-namespace Shin1x1\LaravelTableAdmin\Schema;
+namespace Shin1x1\LaravelTableAdmin\Column;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
 
-class SchemaCollectionFactory
+/**
+ * Class ColumnCollectionFactory
+ * @package Shin1x1\LaravelTableAdmin\Column
+ */
+class ColumnCollectionFactory
 {
     /**
      * @var Connection
@@ -27,18 +31,18 @@ class SchemaCollectionFactory
      */
     public function factory($table)
     {
-        $columns = $this->getColumns($table);
+        $schemas = $this->getColumnSchemas($table);
         /** @var Collection $foreignKeyColumns */
         /** @var Collection $foreignTables */
         list($foreignKeyColumns, $foreignTables) = $this->getForeignKeys($table);
 
-        $schemas = Collection::make([]);
-        foreach ($columns as $column) {
-            $schema = $this->buildSchema($column, $foreignKeyColumns, $foreignTables);
-            $schemas->push($schema);
+        $columns = Collection::make([]);
+        foreach ($schemas as $column) {
+            $column = $this->buildColumn($column, $foreignKeyColumns, $foreignTables);
+            $columns->push($column);
         }
 
-        return $schemas;
+        return $columns;
 
     }
 
@@ -46,19 +50,19 @@ class SchemaCollectionFactory
      * @param Column $column
      * @param Collection $foreignKeyColumns
      * @param Collection $foreignTables
-     * @return SchemaInterface
+     * @return ColumnInterface
      */
-    protected function buildSchema(Column $column, Collection $foreignKeyColumns, Collection $foreignTables)
+    protected function buildColumn(Column $column, Collection $foreignKeyColumns, Collection $foreignTables)
     {
         if ($column->getAutoincrement()) {
-            return new SchemaLabel($column);
+            return new ColumnLabel($column);
 
         } else if ($foreignKeyColumns->has($column->getName())) {
             $table = $foreignKeyColumns->get($column->getName());
-            return new SchemaSelect($column, $foreignTables->get($table));
+            return new ColumnSelect($column, $foreignTables->get($table));
 
         } else {
-            return new SchemaText($column);
+            return new ColumnText($column);
         }
     }
 
@@ -66,10 +70,10 @@ class SchemaCollectionFactory
      * @param string $table
      * @return array
      */
-    protected function getColumns($table)
+    protected function getColumnSchemas($table)
     {
-        $schema = $this->connection->getDoctrineSchemaManager();
-        return $schema->listTableColumns($table);
+        $columns = $this->connection->getDoctrineSchemaManager();
+        return $columns->listTableColumns($table);
     }
 
     /**

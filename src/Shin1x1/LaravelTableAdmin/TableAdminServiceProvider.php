@@ -3,6 +3,10 @@ namespace Shin1x1\LaravelTableAdmin;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class TableAdminServiceProvider
+ * @package Shin1x1\LaravelTableAdmin
+ */
 class TableAdminServiceProvider extends ServiceProvider
 {
     /**

@@ -4,9 +4,12 @@ namespace Shin1x1\LaravelTableAdmin;
 use Illuminate\Database\Connection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Shin1x1\LaravelTableAdmin\Schema\SchemaInterface;
+use Shin1x1\LaravelTableAdmin\Column\ColumnInterface;
 
+/**
+ * Class TableAdmin
+ * @package Shin1x1\LaravelTableAdmin
+ */
 class TableAdmin
 {
     const INDEX_LIMIT = 100;
@@ -20,7 +23,7 @@ class TableAdmin
     /**
      * @var Collection
      */
-    protected $schemas;
+    protected $columns;
 
     /**
      * @var string
@@ -34,14 +37,14 @@ class TableAdmin
 
     /**
      * @param Connection $connection
-     * @param Collection $schemas
+     * @param Collection $columns
      * @param string $table
      * @param array $configs
      */
-    public function __construct(Connection $connection, Collection $schemas, $table, array $configs = [])
+    public function __construct(Connection $connection, Collection $columns, $table, array $configs = [])
     {
         $this->connection = $connection;
-        $this->schemas = $schemas;
+        $this->columns = $columns;
         $this->table = $table;
         $this->configs = Collection::make($configs);
     }
@@ -73,15 +76,15 @@ class TableAdmin
     {
         $rules = Collection::make([]);
 
-        $this->schemas->filter(function($schema) {
-            /** @var SchemaInterface $schema */
-            return !$schema->isLabel();
-        })->filter(function($schema) {
-            /** @var SchemaInterface $schema */
-            return $schema->required();
-        })->each(function($schema) use ($rules) {
-            /** @var SchemaInterface $schema */
-            $rules->put($schema->getName(), 'required');
+        $this->columns->filter(function($column) {
+            /** @var ColumnInterface $column */
+            return !$column->isLabel();
+        })->filter(function($column) {
+            /** @var ColumnInterface $column */
+            return $column->required();
+        })->each(function($column) use ($rules) {
+            /** @var ColumnInterface $column */
+            $rules->put($column->getName(), 'required');
         });
 
         return $rules;
@@ -90,6 +93,7 @@ class TableAdmin
     /**
      * @param array $inputs
      * $param integer $id
+     * @param null $id
      */
     public function register(array $inputs, $id = null)
     {
@@ -124,13 +128,13 @@ class TableAdmin
     {
         $values = Collection::make([]);
 
-        $this->schemas->filter(function($schema) {
-            /** @var SchemaInterface $schema */
-            return !$schema->isLabel();
-        })->each(function($schema) use ($all, $values) {
-            /** @var SchemaInterface $schema */
-            $name = $schema->getName();
-            $values->put($name, array_get($all, $schema->getName()));
+        $this->columns->filter(function($column) {
+            /** @var ColumnInterface $column */
+            return !$column->isLabel();
+        })->each(function($column) use ($all, $values) {
+            /** @var ColumnInterface $column */
+            $name = $column->getName();
+            $values->put($name, array_get($all, $column->getName()));
         });
 
         return $values->toArray();
