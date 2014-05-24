@@ -8,10 +8,10 @@ use PDO;
 use Shin1x1\LaravelTableAdmin\Column\ColumnCollectionFactory;
 
 /**
- * Class ColumnCollectionFactoryTest
+ * Class AbstractColumnCollectionFactoryTest
  * @package Shin1x1\LaravelTableAdmin\Test\Column
  */
-class ColumnCollectionFactoryTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ColumnCollectionFactory
@@ -24,12 +24,29 @@ class ColumnCollectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected $connection;
 
     /**
+     * @return string
+     */
+    abstract protected function getConfig();
+
+    /**
+     * @return string
+     */
+    abstract protected function getConnectionClass();
+
+    /**
      * setUp
      */
     public function setUp()
     {
-        $pdo = new PDO('pgsql:dbname=app_test', 'vagrant', 'app_test');
-        $this->connection = new PostgresConnection($pdo);
+        $configs = include(__DIR__ . '/../test_database.php');
+        $config = array_get($configs, $this->getConfig());
+
+        $dsn = sprintf('%s:dbname=%s', $config['driver'], $config['database']);
+
+        $pdo = new PDO($dsn, $config['username'], $config['password']);
+
+        $class = $this->getConnectionClass();
+        $this->connection = new $class($pdo);
 
         $this->connection->getSchemaBuilder()->dropIfExists('riders');
         $this->connection->getSchemaBuilder()->dropIfExists('classes');
