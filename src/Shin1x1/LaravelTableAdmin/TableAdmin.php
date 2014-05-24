@@ -70,27 +70,6 @@ class TableAdmin
     }
 
     /**
-     * @return Collection
-     */
-    public function getValidationRules()
-    {
-        $rules = Collection::make([]);
-
-        $this->columns->filter(function($column) {
-            /** @var ColumnInterface $column */
-            return !$column->isLabel();
-        })->filter(function($column) {
-            /** @var ColumnInterface $column */
-            return $column->required();
-        })->each(function($column) use ($rules) {
-            /** @var ColumnInterface $column */
-            $rules->put($column->getName(), 'required');
-        });
-
-        return $rules;
-    }
-
-    /**
      * @param array $inputs
      * $param integer $id
      * @param null $id

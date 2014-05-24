@@ -12,6 +12,7 @@ use Redirect;
 use Request;
 use Route;
 use Session;
+use Shin1x1\LaravelTableAdmin\Column\ColumnCollection;
 use Shin1x1\LaravelTableAdmin\Column\ColumnCollectionFactory;
 use Validator;
 use View;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TableAdminController extends Controller
 {
     /**
-     * @var Collection
+     * @var ColumnCollection
      */
     protected $columns;
 
@@ -154,7 +155,7 @@ class TableAdminController extends Controller
 
         $inputs = $this->service->getRegisterValues(Input::all());
 
-        $rules = $this->service->getValidationRules();
+        $rules = $this->columns->getValidateRules();
         $validator = Validator::make($inputs, $rules->toArray());
         if ($validator->fails()) {
             return Redirect::to($this->getUrl('form', $table, $id))->withErrors($validator->errors())->withInput();

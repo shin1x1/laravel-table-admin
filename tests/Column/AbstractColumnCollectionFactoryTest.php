@@ -2,7 +2,6 @@
 namespace Shin1x1\LaravelTableAdmin\Test\Column;
 
 use Illuminate\Database\Connection;
-use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Schema\Blueprint;
 use PDO;
 use Shin1x1\LaravelTableAdmin\Column\ColumnCollectionFactory;

@@ -27,7 +27,7 @@ class ColumnCollectionFactory
 
     /**
      * @param string $table
-     * @return Collection
+     * @return ColumnCollection
      */
     public function factory($table)
     {
@@ -36,7 +36,7 @@ class ColumnCollectionFactory
         /** @var Collection $foreignTables */
         list($foreignKeyColumns, $foreignTables) = $this->getForeignKeys($table);
 
-        $columns = Collection::make([]);
+        $columns = ColumnCollection::make([]);
         foreach ($schemas as $column) {
             $column = $this->buildColumn($column, $foreignKeyColumns, $foreignTables);
             $columns->push($column);
