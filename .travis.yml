@@ -13,6 +13,7 @@ before_script:
   - composer install --prefer-source --no-interaction --dev
   - createuser -Upostgres -d -A -S -R vagrant
   - createdb -Uvagrant -E UTF-8 -T template0 app_test
+  - mysql -e 'create database app_test;'
 
 script:
   - ./vendor/bin/phpunit
