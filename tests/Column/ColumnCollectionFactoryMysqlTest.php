@@ -14,6 +14,6 @@ class ColumnCollectionFactoryMysqlTest extends AbstractColumnCollectionFactoryTe
 
     protected function getConnectionClass()
     {
-        return '\Illuminate\Database\MysqlConnection';
+        return '\Illuminate\Database\MySqlConnection';
     }
 }
