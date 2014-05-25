@@ -61,7 +61,7 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         ]);
 
         $this->connection->getSchemaBuilder()->create('riders', function(Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->primary();
             $table->integer('class_id')->index();
             $table->foreign('class_id')->references('id')->on('classes')->onUpdate('cascade');
             $table->string('name');
@@ -79,7 +79,8 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
     /**
      * @test
      */
-    public function tableNothing(){
+    public function tableNothing()
+    {
         $columns = $this->sut->factory('nothing');
 
         $this->assertEquals(0, $columns->count());
@@ -88,7 +89,8 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
     /**
      * @test
      */
-    public function tableHasIdAndNameColumn(){
+    public function tableHasIdAndNameColumn()
+    {
         $columns = $this->sut->factory('classes');
 
         $this->assertEquals(2, $columns->count());
@@ -107,7 +109,8 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
     /**
      * @test
      */
-    public function tableHasForiegnKeyColumn(){
+    public function tableHasForiegnKeyColumn()
+    {
         $columns = $this->sut->factory('riders');
 
         $this->assertEquals(3, $columns->count());

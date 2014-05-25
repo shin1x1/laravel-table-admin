@@ -14,4 +14,13 @@ class ColumnAutoincrement extends AbstractColumn
     {
         return true;
     }
+
+    /**
+     * @return string
+     */
+    public function getValidationRule()
+    {
+        // no validation
+        return null;
+    }
 }

@@ -89,7 +89,7 @@ class AbstractColumn implements ColumnInterface
      */
     public function getValidationRule()
     {
-        if ($this->required() && !$this->isLabel()) {
+        if ($this->required()) {
            return 'required';
         }
 
