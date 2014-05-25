@@ -25,15 +25,22 @@ class AbstractColumn implements ColumnInterface
     protected $selectList = [];
 
     /**
+     * @var bool
+     */
+    protected $uniqued = false;
+
+    /**
      * @param Column $column
      * @param string $foreignTable
      * @param array $selectList
+     * @param bool $uniqued
      */
-    public function __construct(Column $column, $foreignTable = '', $selectList = [])
+    public function __construct(Column $column, $foreignTable = '', $selectList = [], $uniqued = false)
     {
         $this->column = $column;
         $this->foreignTable = $foreignTable;
         $this->selectList = $selectList;
+        $this->uniqued = $uniqued;
     }
 
     /**
@@ -82,6 +89,14 @@ class AbstractColumn implements ColumnInterface
     public function required()
     {
         return $this->column->getNotnull();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function uniqued()
+    {
+        return $this->uniqued;
     }
 
     /**

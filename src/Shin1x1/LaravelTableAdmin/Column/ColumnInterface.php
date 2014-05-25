@@ -33,6 +33,11 @@ interface ColumnInterface
     public function required();
 
     /**
+     * @return boolean
+     */
+    public function uniqued();
+
+    /**
      * @return string
      */
     public function getValidationRule();

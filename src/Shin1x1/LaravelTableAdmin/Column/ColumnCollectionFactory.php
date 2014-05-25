@@ -3,6 +3,8 @@ namespace Shin1x1\LaravelTableAdmin\Column;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
@@ -27,19 +29,23 @@ class ColumnCollectionFactory
     }
 
     /**
-     * @param string $table
+     * @param string $tableName
      * @return ColumnCollection
      */
-    public function factory($table)
+    public function factory($tableName)
     {
-        $schemas = $this->getColumnSchemas($table);
+        $table = $this->connection->getDoctrineSchemaManager()->listTableDetails($tableName);
+        $schemas = $table->getColumns();
         /** @var Collection $foreignKeyColumns */
         /** @var Collection $foreignTables */
+
         list($foreignKeyColumns, $foreignTables) = $this->getForeignKeys($table);
+
+        $indexes = Collection::make($table->getIndexes());
 
         $columns = ColumnCollection::make([]);
         foreach ($schemas as $column) {
-            $column = $this->buildColumn($column, $foreignKeyColumns, $foreignTables);
+            $column = $this->buildColumn($column, $foreignKeyColumns, $foreignTables, $indexes);
             $columns->push($column);
         }
 
@@ -51,21 +57,27 @@ class ColumnCollectionFactory
      * @param Column $column
      * @param Collection $foreignKeyColumns
      * @param Collection $foreignTables
+     * @param Collection $indexes
      * @return ColumnInterface
      */
-    protected function buildColumn(Column $column, Collection $foreignKeyColumns, Collection $foreignTables)
+    protected function buildColumn(Column $column, Collection $foreignKeyColumns, Collection $foreignTables, Collection $indexes)
     {
+        $uniqued = $indexes->filter(function($index) use ($column) {
+            /** @type Index $index */
+            return $index->getColumns()[0] == $column->getName() && $index->isUnique();
+        })->count() > 0;
+
         if ($column->getAutoincrement()) {
-            return new ColumnAutoincrement($column);
+            return new ColumnAutoincrement($column, null, null, $uniqued);
 
         } else if ($foreignKeyColumns->has($column->getName())) {
             $table = $foreignKeyColumns->get($column->getName());
-            return new ColumnSelect($column, $table, $foreignTables->get($table));
+            return new ColumnSelect($column, $table, $foreignTables->get($table), $uniqued);
 
         } else if ($column->getType()->getName() == Type::INTEGER) {
-            return new ColumnNumericText($column);
+            return new ColumnNumericText($column, null, null, $uniqued);
         } else {
-            return new ColumnText($column);
+            return new ColumnText($column, null, null, $uniqued);
         }
     }
 
@@ -80,15 +92,15 @@ class ColumnCollectionFactory
     }
 
     /**
-     * @param string $table
+     * @param Table $table
      * @return array [Collection, Collection]
      */
-    protected function getForeignKeys($table)
+    protected function getForeignKeys(Table $table)
     {
         $foreignTables = Collection::make([]);
         $foreignKeyColumns = Collection::make([]);
 
-        Collection::make($this->connection->getDoctrineSchemaManager()->listTableForeignKeys($table))
+        Collection::make($table->getForeignKeys())
             ->each(function($key) use ($foreignTables, $foreignKeyColumns) {
                 /** @var ForeignKeyConstraint $key */
                 if (count($key->getLocalColumns()) != 1) {

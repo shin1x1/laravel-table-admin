@@ -96,8 +96,10 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         $this->assertEquals(2, $columns->count());
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnNumericText', $columns->get(0));
         $this->assertEquals('id', $columns->get(0)->getName());
+        $this->assertTrue($columns->get(0)->uniqued());
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $columns->get(1));
         $this->assertEquals('name', $columns->get(1)->getName());
+        $this->assertFalse($columns->get(1)->uniqued());
 
         $expected = [
             'id' => 'required|regex:/\A[0-9]+\z/',
@@ -118,6 +120,7 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         $column = $columns->get(0);
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnAutoincrement', $column);
         $this->assertEquals('id', $column->getName());
+        $this->assertTrue($columns->get(0)->uniqued());
 
         $column = $columns->get(1);
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnSelect', $column);
@@ -127,10 +130,12 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
             '2' => 'class2',
         ];
         $this->assertEquals($expected, $column->getSelectList());
+        $this->assertFalse($columns->get(1)->uniqued());
 
         $column = $columns->get(2);
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $column);
         $this->assertEquals('name', $column->getName());
+        $this->assertFalse($columns->get(2)->uniqued());
 
         $expected = [
             'class_id' => 'required|regex:/\A[0-9]+\z/|exists:classes',
