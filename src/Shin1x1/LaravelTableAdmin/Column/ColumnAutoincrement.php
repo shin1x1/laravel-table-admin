@@ -2,10 +2,10 @@
 namespace Shin1x1\LaravelTableAdmin\Column;
 
 /**
- * Class ColumnLabel
+ * Class ColumnAutoincrement
  * @package Shin1x1\LaravelTableAdmin\Column
  */
-class ColumnLabel extends AbstractColumn
+class ColumnAutoincrement extends AbstractColumn
 {
     /**
      * @return bool

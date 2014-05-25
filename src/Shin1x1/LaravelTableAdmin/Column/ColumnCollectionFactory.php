@@ -56,7 +56,7 @@ class ColumnCollectionFactory
     protected function buildColumn(Column $column, Collection $foreignKeyColumns, Collection $foreignTables)
     {
         if ($column->getAutoincrement()) {
-            return new ColumnLabel($column);
+            return new ColumnAutoincrement($column);
 
         } else if ($foreignKeyColumns->has($column->getName())) {
             $table = $foreignKeyColumns->get($column->getName());

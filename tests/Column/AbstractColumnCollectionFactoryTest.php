@@ -113,7 +113,7 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         $this->assertEquals(3, $columns->count());
 
         $column = $columns->get(0);
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnLabel', $column);
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnAutoincrement', $column);
         $this->assertEquals('id', $column->getName());
 
         $column = $columns->get(1);
