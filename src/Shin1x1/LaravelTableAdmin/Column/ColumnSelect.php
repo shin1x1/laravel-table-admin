@@ -14,4 +14,14 @@ class ColumnSelect extends AbstractColumn
     {
         return true;
     }
+
+    /**
+     * @return string
+     */
+    public function getValidationRule()
+    {
+        $rule = parent::getValidationRule();
+
+        return $rule . '|regex:/\A[0-9]+\z/|exists:' . $this->getForeignTable();
+    }
 }

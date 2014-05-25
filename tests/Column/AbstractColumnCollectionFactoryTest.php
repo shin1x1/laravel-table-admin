@@ -92,10 +92,16 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         $columns = $this->sut->factory('classes');
 
         $this->assertEquals(2, $columns->count());
-        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $columns->get(0));
+        $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnNumericText', $columns->get(0));
         $this->assertEquals('id', $columns->get(0)->getName());
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $columns->get(1));
         $this->assertEquals('name', $columns->get(1)->getName());
+
+        $expected = [
+            'id' => 'required|regex:/\A[0-9]+\z/',
+            'name' => 'required',
+        ];
+        $this->assertEquals($expected, $columns->getValidateRules()->toArray());
     }
 
     /**
@@ -122,5 +128,11 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         $column = $columns->get(2);
         $this->assertInstanceOf('\Shin1x1\LaravelTableAdmin\Column\ColumnText', $column);
         $this->assertEquals('name', $column->getName());
+
+        $expected = [
+            'class_id' => 'required|regex:/\A[0-9]+\z/|exists:classes',
+            'name' => 'required',
+        ];
+        $this->assertEquals($expected, $columns->getValidateRules()->toArray());
     }
 }

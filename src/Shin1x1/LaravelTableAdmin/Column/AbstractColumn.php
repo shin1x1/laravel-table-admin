@@ -15,17 +15,24 @@ class AbstractColumn implements ColumnInterface
     protected $column;
 
     /**
+     * @var string
+     */
+    protected $foreignTable;
+
+    /**
      * @var array
      */
     protected $selectList = [];
 
     /**
      * @param Column $column
+     * @param string $foreignTable
      * @param array $selectList
      */
-    public function __construct(Column $column, $selectList = [])
+    public function __construct(Column $column, $foreignTable = '', $selectList = [])
     {
         $this->column = $column;
+        $this->foreignTable = $foreignTable;
         $this->selectList = $selectList;
     }
 
@@ -62,10 +69,30 @@ class AbstractColumn implements ColumnInterface
     }
 
     /**
+     * @return string
+     */
+    public function getForeignTable()
+    {
+        return $this->foreignTable;
+    }
+
+    /**
      * @return boolean
      */
     public function required()
     {
         return $this->column->getNotnull();
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationRule()
+    {
+        if ($this->required() && !$this->isLabel()) {
+           return 'required';
+        }
+
+        return null;
     }
 }

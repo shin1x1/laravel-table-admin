@@ -3,6 +3,7 @@ namespace Shin1x1\LaravelTableAdmin\Column;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
 
@@ -59,8 +60,10 @@ class ColumnCollectionFactory
 
         } else if ($foreignKeyColumns->has($column->getName())) {
             $table = $foreignKeyColumns->get($column->getName());
-            return new ColumnSelect($column, $foreignTables->get($table));
+            return new ColumnSelect($column, $table, $foreignTables->get($table));
 
+        } else if ($column->getType()->getName() == Type::INTEGER) {
+            return new ColumnNumericText($column);
         } else {
             return new ColumnText($column);
         }

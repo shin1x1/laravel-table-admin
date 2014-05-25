@@ -31,4 +31,9 @@ interface ColumnInterface
      * @return boolean
      */
     public function required();
+
+    /**
+     * @return string
+     */
+    public function getValidationRule();
 }

@@ -14,18 +14,16 @@ class ColumnCollection extends Collection
      */
     public function getValidateRules()
     {
-        $rules = Collection::make([]);
+        $rules = new Collection();
 
-        $this->filter(function($column) {
-            /** @var ColumnInterface $column */
-            return !$column->isLabel();
-        })->filter(function($column) {
-                /** @var ColumnInterface $column */
-                return $column->required();
-            })->each(function($column) use ($rules) {
-                /** @var ColumnInterface $column */
-                $rules->put($column->getName(), 'required');
-            });
+        $this->each(function($v) use($rules) {
+            /** @type ColumnInterface $v */
+            if (is_null($v->getValidationRule())) {
+                return;
+            }
+
+            $rules->put($v->getName(), $v->getValidationRule());
+        });
 
         return $rules;
     }
