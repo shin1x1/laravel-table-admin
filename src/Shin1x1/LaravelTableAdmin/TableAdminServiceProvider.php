@@ -33,7 +33,10 @@ class TableAdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bindShared('table-admin', function($app)
+        {
+            return new TableAdminFacade();
+        });
     }
 
     /**
