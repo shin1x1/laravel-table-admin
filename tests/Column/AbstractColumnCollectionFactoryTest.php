@@ -138,7 +138,7 @@ abstract class AbstractColumnCollectionFactoryTest extends \PHPUnit_Framework_Te
         $this->assertFalse($columns->get(2)->uniqued());
 
         $expected = [
-            'class_id' => 'required|regex:/\A[0-9]+\z/|exists:classes',
+            'class_id' => 'required|regex:/\A[0-9]+\z/|exists:classes,id',
             'name' => 'required',
         ];
         $this->assertEquals($expected, $columns->getValidateRules()->toArray());

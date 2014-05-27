@@ -22,6 +22,6 @@ class ColumnSelect extends AbstractColumn
     {
         $rule = parent::getValidationRule();
 
-        return $rule . '|regex:/\A[0-9]+\z/|exists:' . $this->getForeignTable();
+        return $rule . '|regex:/\A[0-9]+\z/|exists:' . $this->getForeignTable() . ',id';
     }
 }
