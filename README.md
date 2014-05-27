@@ -31,37 +31,30 @@ Execute composer install or update
 $ composer install or update
 ```
 
-Next, add ServiceProvider in `app/config/app.php`
+Next, add ServiceProvider and Facade in `app/config/app.php`
 
 ```
-'Shin1x1\LaravelTableAdmin\TAbleAdminServiceProvider`
+    'providers' => [
+        // ....
+        'Shin1x1\LaravelTableAdmin\TAbleAdminServiceProvider`
+    ],
 ```
 
-Finally, you write routing for CRUD in `app/routes.php`
+```
+    'aliases' => [
+        // ....
+        'TableAdmin' => 'Shin1x1\LaravelTableAdmin\TableAdminFacade',
+    ],
+```
+
+Finally, you specify table name that to be enable CRUD `app/routes.php`
 
 ```
-        Route::group(Config::get(TableAdmin::PACKAGE_NAME . '::routing'), function() {
-            $tables = [ // specify table names
-                'classes',
-                'nationalities',
-                'riders',
-            ];
-            $parameters = [
-                'table' => '(' . implode('|', $tables) . ')',
-            ];
-
-            $controller = '\Shin1x1\LaravelTableAdmin\Controller\TableAdminController';
-            Route::get('{table}', $controller . '@index')->where($parameters);
-            Route::get('{table}/create', $controller . '@create')->where($parameters);
-            Route::post('{table}', $controller . '@store')->where($parameters);
-            Route::get('{table}/{id}', $controller . '@edit')->where($parameters);
-            Route::put('{table}/{id}', $controller . '@update')->where($parameters);
-            Route::delete('{table}/{id}', $controller . '@destroy')->where($parameters);
-        });
-    });
-
-
-
+TableAdmin::route([
+    'classes',
+    'nationalities',
+    'riders',
+]);
 ```
 
 Done!

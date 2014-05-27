@@ -14,7 +14,7 @@ class TableAdminFacade extends Facade
     /**
      * @param array $tables
      */
-    public function route(array $tables)
+    public static function route(array $tables)
     {
         Route::group(Config::get(TableAdmin::PACKAGE_NAME . '::routing'), function() use ($tables) {
             $parameters = [
