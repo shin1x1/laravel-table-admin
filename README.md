@@ -20,7 +20,7 @@ or
 ```
 {
     "require": {
-        "shin1x1/laravel-table-admin": "dev-master"
+        "shin1x1/laravel-table-admin": "0.1.*"
     }
 }
 ```
