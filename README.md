@@ -60,3 +60,6 @@ TableAdmin::route([
 Done!
 
 If you will open `http://localhost/crud/{TABLE}` in browser, you can access CRUD.
+
+## Customization
+
