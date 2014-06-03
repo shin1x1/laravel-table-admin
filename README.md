@@ -63,7 +63,7 @@ If you will open `http://localhost/crud/{TABLE}` in browser, you can access CRUD
 
 ## Customization
 
-### View template
+### View template files
 
 If you run the below command then view template files will be publish to `app/views/packages/shin1x1/laravel-table-admin/`.
 
