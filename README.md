@@ -63,3 +63,25 @@ If you will open `http://localhost/crud/{TABLE}` in browser, you can access CRUD
 
 ## Customization
 
+### View template
+
+If you run the below command then view template files will be publish to `app/views/packages/shin1x1/laravel-table-admin/`.
+
+```
+$ php artisan view:publish shin1x1/laravel-table-admin
+Views published for package: shin1x1/laravel-table-admin
+```
+
+Published view template files include 3 files.`base.blade.php` is base layout file.`form.blade.php` is create and edit form page.`index.blade.php` is index page.
+
+```
+$ ls app/views/packages/shin1x1/laravel-table-admin/
+base.blade.php  form.blade.php  index.blade.php
+```
+
+## Example
+
+Example using this package is below repo.
+
+[https://github.com/shin1x1/laravel-table-admin-example](https://github.com/shin1x1/laravel-table-admin-example)
+
