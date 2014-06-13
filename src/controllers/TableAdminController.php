@@ -14,6 +14,7 @@ use Route;
 use Session;
 use Shin1x1\LaravelTableAdmin\Column\ColumnCollection;
 use Shin1x1\LaravelTableAdmin\Column\ColumnCollectionFactory;
+use Shin1x1\LaravelTableAdmin\Column\ColumnInterface;
 use Validator;
 use View;
 use Shin1x1\LaravelTableAdmin\TableAdmin;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TableAdminController extends Controller
 {
     /**
-     * @var ColumnCollection
+     * @var ColumnCollection|ColumnInterface[]
      */
     protected $columns;
 

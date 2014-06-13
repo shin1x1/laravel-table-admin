@@ -16,8 +16,7 @@ class ColumnCollection extends Collection
     {
         $rules = new Collection();
 
-        $this->each(function($v) use($rules) {
-            /** @type ColumnInterface $v */
+        $this->each(function(ColumnInterface $v) use($rules) {
             if (is_null($v->getValidationRule())) {
                 return;
             }

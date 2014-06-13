@@ -36,9 +36,6 @@ class ColumnCollectionFactory
     {
         $table = $this->connection->getDoctrineSchemaManager()->listTableDetails($tableName);
         $schemas = $table->getColumns();
-        /** @var Collection $foreignKeyColumns */
-        /** @var Collection $foreignTables */
-
         list($foreignKeyColumns, $foreignTables) = $this->getForeignKeys($table);
 
         $indexes = Collection::make($table->getIndexes());
@@ -62,8 +59,7 @@ class ColumnCollectionFactory
      */
     protected function buildColumn(Column $column, Collection $foreignKeyColumns, Collection $foreignTables, Collection $indexes)
     {
-        $uniqued = $indexes->filter(function($index) use ($column) {
-            /** @type Index $index */
+        $uniqued = $indexes->filter(function(Index $index) use ($column) {
             return $index->getColumns()[0] == $column->getName() && $index->isUnique();
         })->count() > 0;
 
@@ -101,8 +97,7 @@ class ColumnCollectionFactory
         $foreignKeyColumns = Collection::make([]);
 
         Collection::make($table->getForeignKeys())
-            ->each(function($key) use ($foreignTables, $foreignKeyColumns) {
-                /** @var ForeignKeyConstraint $key */
+            ->each(function(ForeignKeyConstraint $key) use ($foreignTables, $foreignKeyColumns) {
                 if (count($key->getLocalColumns()) != 1) {
                     return;
                 }

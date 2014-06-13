@@ -107,11 +107,9 @@ class TableAdmin
     {
         $values = Collection::make([]);
 
-        $this->columns->filter(function($column) {
-            /** @var ColumnInterface $column */
+        $this->columns->filter(function(ColumnInterface $column) {
             return !$column->isLabel();
-        })->each(function($column) use ($all, $values) {
-            /** @var ColumnInterface $column */
+        })->each(function(ColumnInterface $column) use ($all, $values) {
             $name = $column->getName();
             $values->put($name, array_get($all, $column->getName()));
         });

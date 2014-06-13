@@ -1,3 +1,8 @@
+<?php
+/**
+ * @type \Shin1x1\LaravelTableAdmin\Column\ColumnInterface[] $columns
+ */
+?>
 @extends(Config::get('laravel-table-admin::view.parent_view'))
 
 @section('title')
