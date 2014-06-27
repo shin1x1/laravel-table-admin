@@ -19,7 +19,7 @@ Laravel-Table-Admin Simple CRUD package for Laravel 4
 First, add dependency in composer.json
 
 ```
-$ compoer require "shin1x1/laravel-table-admin" "dev-master"
+$ composer require "shin1x1/laravel-table-admin" "dev-master"
 ```
 
 or
