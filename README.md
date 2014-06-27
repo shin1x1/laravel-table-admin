@@ -5,6 +5,10 @@ laravel-table-admin
 
 Laravel-Table-Admin Simple CRUD package for Laravel 4
 
+![list](https://raw.githubusercontent.com/wiki/shin1x1/laravel-table-admin/images/classes_list.jpg?1)
+
+![edit](https://raw.githubusercontent.com/wiki/shin1x1/laravel-table-admin/images/classes_edit.jpg?1)
+
 [demo site](http://laravel-table-admin.herokuapp.com/crud/classes)
 
 [blog](http://www.1x1.jp/blog/2014/06/laravel-table-admin.html) (Japanese)
