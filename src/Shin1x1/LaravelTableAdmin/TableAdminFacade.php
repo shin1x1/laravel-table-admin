@@ -21,6 +21,10 @@ class TableAdminFacade extends Facade
                 'table' => '(' . implode('|', $tables) . ')',
             ];
 
+            Route::get('', function() use($tables) {
+                return View::make(TableAdmin::PACKAGE_NAME .'::'. 'tables', compact('tables'));
+            });
+
             $controller = '\Shin1x1\LaravelTableAdmin\Controller\TableAdminController';
             Route::get('{table}', $controller . '@index')->where($parameters);
             Route::get('{table}/create', $controller . '@create')->where($parameters);
